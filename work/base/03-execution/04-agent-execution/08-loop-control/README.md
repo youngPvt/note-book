@@ -1,15 +1,15 @@
-# 11 循环控制、停止与任务汇聚
+# 08 循环控制、停止与任务汇聚
 
-本步骤根据实际反馈决定继续、调整计划、等待或结束，防止 Agent 无限制调用。它读取 [动作结果检查](../10-post-action-check/README.md) 及模型响应，维护当前计划、进度、未决事项和剩余预算。以下为平台设计，循环分支不要求预定义业务 Workflow。
+本步骤根据实际反馈决定继续、调整计划、等待或结束，防止 Agent 无限制调用。它读取 [动作结果检查](../07-post-action-check/README.md) 及模型响应，维护进度、未决事项、剩余预算，以及存在时的显式计划。以下为平台设计，循环分支不要求预定义业务 Workflow。
 
 ## 输入、输出与去向
 
 | 判断依据 | 下一步 |
 | --- | --- |
-| 证据不足或发现新信息缺口 | 返回 [检索](../05-capability-retrieval/README.md) 与 [上下文组装](../06-context-assembly/README.md) |
-| 原计划不适用，但范围仍明确 | 返回 [任务理解与计划](../04-intent-planning/README.md) |
-| 需要人工输入、审批或可靠恢复 | 进入 [等待与恢复](../13-wait-recovery/README.md) |
-| 完成条件已满足或无法继续 | 交给 [完成与交付](../12-completion-delivery/README.md) 核验并提交结果 |
+| 证据不足或发现新信息缺口 | 返回 [检索](../02-capability-retrieval/README.md) 与 [上下文组装](../03-context-assembly/README.md) |
+| 原计划不适用，但范围仍明确 | 将新证据带入下一轮正常模型调用，完成 [任务规划](../01-task-planning/README.md) |
+| 需要人工输入、审批或可靠恢复 | 进入 [等待与恢复](../../06-wait-recovery/README.md) |
+| 完成条件已满足或无法继续 | 交给 [完成与交付](../../05-completion-delivery/README.md) 核验并提交结果 |
 
 循环只提出结束原因，Run 终态仍在结果与必要产物持久化后提交。模型不再调用工具或回复“完成”，都不能单独证明业务验收通过。
 
@@ -37,4 +37,4 @@ Pi core 的 `finishTurn` 可请求继续或结束，错误与中止仍退出本�
 2. Runtime 停止、Run 成功和业务验收分别由什么证据判定？
 3. 子任务失败或产生冲突时，父任务怎样汇聚？
 
-[Agent 本体与执行循环](./01-Agent本体与执行循环.md) · [多 Agent 协作与结果汇聚](./02-多Agent协作与结果汇聚.md) · [评测模块](../../13-evaluation/README.md) · [返回执行层](../README.md)
+[Agent 本体与执行循环](./01-Agent本体与执行循环.md) · [多 Agent 协作与结果汇聚](./02-多Agent协作与结果汇聚.md) · [评测模块](../../../13-evaluation/README.md) · [返回任务执行](../README.md) · [返回执行层](../../README.md)

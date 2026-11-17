@@ -1,10 +1,12 @@
-# 06 上下文组装与预算检查
+# 03 上下文组装与预算检查
 
-本步骤把已取得的材料组织成本次模型请求可用的输入，回答“这次调用实际能看到什么”。平台可控调用在每轮请求前执行，SDK 内部调用按适配器能力接入。以下为设计建议，具体策略见 [上下文模块](../../04-context/README.md)。
+本步骤把已取得的材料组织成本次模型请求可用的输入，回答“这次调用实际能看到什么”。平台可控调用在每轮请求前执行，SDK 内部调用按适配器能力接入。以下为设计建议，具体策略见 [上下文模块](../../../04-context/README.md)。
 
 ## 输入、输出与归属
 
-输入包括固定版本指令、当前目标与工作状态、[检索结果](../05-capability-retrieval/README.md)、工具反馈、相关历史和模型能力。输出是送往 [模型调用](../07-model-invocation/README.md) 的材料与工具集合，以及版本、来源、裁剪和估算用量记录。
+输入包括固定版本指令、当前目标与工作状态、[检索结果](../02-capability-retrieval/README.md)、工具反馈、相关历史和模型能力。输出是送往 [模型调用](../04-model-invocation/README.md) 的材料与工具集合，以及版本、来源、裁剪和估算用量记录。
+
+首轮可直接以用户请求、已知约束、必要历史和已授权的基础能力入口组装输入，不依赖预先生成的意图分类、完整计划或 Skill 正文。任务理解与下一步决策由这次正常模型调用完成，后续再按实际结果补充上下文。
 
 Context Assembler 决定选择和排列，ResourceLoader 完成访问检查与读取，模型适配器转换为供应商格式。工作状态由 Runtime 持有，记忆服务提供长期条目，职责不重复。
 
@@ -24,6 +26,8 @@ Context Assembler 决定选择和排列，ResourceLoader 完成访问检查与�
 
 上下文是一次请求的投影。加载清单、消息历史、checkpoint 和产物各有保存目的，压缩模型输入不代表删除原始记录，也不替代运行恢复数据。原始内容按权限与保留策略保存。
 
+跨 Worker 接续由 [等待与恢复](../../06-wait-recovery/README.md) 判定恢复条件，经执行准入取得归属后，由 [Runtime 初始化](../../03-runtime-setup/README.md#重试与上下文恢复的分工) 恢复必要运行状态和 SDK 会话。本环节再根据已恢复状态、原 Run 配置快照、当前权限和剩余预算组装下一轮输入，无需原样恢复上一轮的完整 Prompt。原 Runtime 内局部模型或工具重试沿用原 Attempt，不因此重建运行实例；重试是否需要重新组装输入取决于本轮状态和调用契约，未知副作用仍须先对账。
+
 SDK 不暴露内部输入、压缩或用量时标记未知。撤权内容已经进入 SDK 历史且无法可靠清除时，停止受影响执行并从授权输入重建会话。
 
 Pi core 在每次调用前依次执行 `transformContext` 和 `convertToLlm`，分别处理应用上下文与模型消息格式。coding-agent 的压缩另行追加摘要条目并重建投影，保留原始历史。[核心转换源码](https://github.com/earendil-works/pi/blob/04fd0897e4df737cd8422bc99085d6953da804ec/packages/agent/src/agent-loop.ts#L386-L417) · [压缩机制](https://github.com/earendil-works/pi/blob/04fd0897e4df737cd8422bc99085d6953da804ec/packages/coding-agent/docs/compaction.md)
@@ -34,4 +38,4 @@ Pi core 在每次调用前依次执行 `transformContext` 和 `convertToLlm`，�
 2. 压缩后如何保留授权约束、未决动作与证据？
 3. SDK 内部历史不可编辑时怎样处理撤权？
 
-[模型模块](../../06-models/README.md) · [记忆模块](../../05-memory/README.md) · [运行观测](../14-observability/README.md) · [返回执行层](../README.md)
+[模型模块](../../../06-models/README.md) · [记忆模块](../../../05-memory/README.md) · [运行观测](../../07-observability/README.md) · [返回任务执行](../README.md) · [返回执行层](../../README.md)

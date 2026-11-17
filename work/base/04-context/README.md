@@ -23,7 +23,7 @@ MCP 提供工具发现与调用协议，模型请求中的工具选择和装载�
 | 模块 | 在加载链路中的职责 |
 | --- | --- |
 | [管理层](../01-management/README.md) | 保存预加载、发现、预算、版本和访问策略，随 AgentVersion 发布 |
-| [执行层](../03-execution/README.md) | 调度 Run、驱动 Agent 与工具循环，管理 Attempt、Runtime 状态和停止条件 |
+| [执行层](../03-execution/README.md) | 准入并启动 Run、驱动 Agent 与工具循环，管理 Attempt、Runtime 状态和停止条件 |
 | Context Assembler 与 ResourceLoader | 选择资源、执行加载、维护上下文清单与裁剪记录 |
 | [MCP](../07-mcp/README.md)、[Skills](../08-skills/README.md) | 提供工具 schema、能力元数据和固定版本方法资源 |
 | [知识服务](../09-knowledge/README.md)、[产物服务](../11-artifacts/README.md) | 提供带权限、来源和版本的片段、文件及范围读取 |

@@ -1,10 +1,12 @@
-# 05 能力发现与资料检索
+# 02 能力发现与资料检索
 
 本步骤回答当前任务可以使用什么方法、工具和证据，输出候选能力及必要内容。它贯穿 Agent 循环，首次准备和工具反馈出现信息缺口时都可触发。以下为平台设计，候选发现不会授予新权限。
 
+Runtime 基础初始化中的“Skill 配置”是允许范围、版本约束和发现接口，不代表已经召回或加载正文。本步骤根据当前任务选取具体能力；普通任务可以不使用 Skill。选中包含脚本的 Skill 也不立即执行脚本或创建沙箱，只有实际动作需要时才经门禁进入工具执行。
+
 ## 输入、输出与协作
 
-输入来自 [任务理解](../04-intent-planning/README.md) 或 [循环控制](../11-loop-control/README.md)，包含当前问题、子任务、已有证据、可信身份、固定版本和预算。结果交给 [上下文组装](../06-context-assembly/README.md)，并保留未命中原因与来源。
+输入来自 [任务规划](../01-task-planning/README.md) 或 [循环控制](../08-loop-control/README.md)，包含当前问题、子任务、已有证据、可信身份、固定版本和预算。结果交给 [上下文组装](../03-context-assembly/README.md)，并保留未命中原因与来源。
 
 | 资源 | 先取得什么 | 进一步读取什么 |
 | --- | --- | --- |
@@ -24,7 +26,7 @@
 
 “订单列表增加创建人筛选”可以先找仓库修改方法与订单接口资料，读到权限过滤实现后再查询相应规则，无需一次加载全部目录。
 
-模型发起的搜索、加载和检索也是工具调用，经过 [动作前检查](../08-pre-action-gate/README.md)、[工具执行](../09-tool-execution/README.md) 与 [结果检查](../10-post-action-check/README.md)。平台直接预加载的读取也执行等价访问和结果检查。
+模型发起的搜索、加载和检索也是工具调用，经过 [动作前检查](../05-pre-action-gate/README.md)、[工具执行](../06-tool-execution/README.md) 与 [结果检查](../07-post-action-check/README.md)。平台直接预加载的读取也执行等价访问和结果检查。
 
 ## 故障与边界
 
@@ -40,4 +42,4 @@ Pi 会先公布 Skill 名称、描述和路径，按任务读取正文，显式 
 2. 为什么搜索工具也需要动作检查？
 3. 同一请求中何时应重新检索，何时应复用已有结果？
 
-[Skill](../../08-skills/README.md) · [MCP](../../07-mcp/README.md) · [知识](../../09-knowledge/README.md) · [记忆](../../05-memory/README.md) · [产物](../../11-artifacts/README.md) · [返回执行层](../README.md)
+[Skill](../../../08-skills/README.md) · [MCP](../../../07-mcp/README.md) · [知识](../../../09-knowledge/README.md) · [记忆](../../../05-memory/README.md) · [产物](../../../11-artifacts/README.md) · [返回任务执行](../README.md) · [返回执行层](../../README.md)

@@ -10,7 +10,7 @@
 | --- | --- | --- |
 | [00-overview](./00-overview/README.md) | [总体架构与模块关系](../base/00-overview/README.md) | 暂无已整理案例 |
 | [01-management](./01-management/README.md) | [管理层](../base/01-management/README.md) | 暂无独立案例；模块入口包含相关案例链接 |
-| [02-connection](./02-connection/README.md) | [连接接入与会话协作](../base/02-connection/README.md) | 暂无真实故障案例；入口列出问题分类与设计验收场景 |
+| [02-connection](./02-connection/README.md) | [连接接入与会话协作](../base/02-connection/README.md) | [长任务可靠性](./02-connection/01-长任务可靠性.md)（通用设计问题） |
 | [03-execution](./03-execution/README.md) | [执行层与 Agent 行为](../base/03-execution/README.md) | [Skill 激活集合与工具授权](./03-execution/01-Skill激活集合与工具授权.md) |
 | [04-context](./04-context/README.md) | [上下文管理与渐进式加载](../base/04-context/README.md) | [Skill 正文被工具结果截断](./04-context/01-Skill正文被工具结果截断.md) |
 | [05-memory](./05-memory/README.md) | [记忆分类与生命周期](../base/05-memory/README.md) | 暂无已整理案例 |
@@ -26,6 +26,8 @@
 现有案例主归属：召回与资源放在 `08-skills`，正文传输放在 `04-context`，激活集合与守卫放在 `03-execution`，生成内容完整性放在 `11-artifacts`。
 
 [Skill 典型问题总纲](./08-skills/00-Skill典型问题总纲.md) 另外收录结合官方资料归纳的通用问题，不属于下方六个已有故障案例的复验结论。
+
+[长任务可靠性](./02-connection/01-长任务可靠性.md) 从连接接入串起执行准入、执行恢复、外部副作用与交付，用于后续讨论和验证设计，同样不计入已有故障案例的复验结果。
 
 ## 本批案例的来源与验证范围
 

@@ -15,8 +15,8 @@
 - [管理、连接、执行、记忆与公共组件的职责](./00-overview/README.md#各模块的职责与核心对象)，配置治理、用户交互、任务运行及资源服务的边界。
 - [统一运行对象](./00-overview/README.md#统一运行对象)，AgentVersion、Session、Run、Attempt 与业务关联。
 - [一条需求中的模块协作](./00-overview/README.md#用一条需求串起所有模块)，从身份校验到执行结果与记忆提炼。
-- [部署单元与存储分工](./00-overview/README.md#小规模部署建议)，管理服务、Worker、关系库、对象存储、索引与队列。
-- [跨模块故障处理](./03-execution/13-wait-recovery/01-组件协作与故障处理.md)，工具响应丢失、版本回滚、归档失败、索引滞后与权限撤销。
+- [部署单元与存储分工](./00-overview/README.md#小规模部署建议)，管理服务、执行实例、关系库、对象存储、索引与事件通道。
+- [跨模块故障处理](./03-execution/06-wait-recovery/01-组件协作与故障处理.md)，工具响应丢失、版本回滚、归档失败、索引滞后与权限撤销。
 
 ## 01 管理层
 
@@ -34,39 +34,48 @@
 
 - [连接模块总览](./02-connection/README.md)，连接网关、会话管理和执行层的职责，以及独立部署的条件。
 - [请求处理与会话协作](./02-connection/01-请求处理与会话协作.md)，请求规范化、身份与参数校验、会话归属、操作分类和任务接入。
-- [会话并发与执行资格](./02-connection/01-请求处理与会话协作.md)，新任务排队、原任务控制输入，以及会话规则与执行层原子裁决的分工。
+- [会话并发与执行资格](./02-connection/01-请求处理与会话协作.md)，会话忙时拒绝新独立任务、原任务控制输入，以及会话规则与执行层原子裁决的分工。
 - [连接路由与事件推送](./02-connection/02-连接路由与事件推送.md)，WS 终止位置、多实例订阅、连接映射、事件分发与慢客户端处理。
+- [数据库与 Redis 的分工](./02-connection/02-连接路由与事件推送.md#数据库与-redis-的分工)，持久业务记录、查询缓存、可重建的临时路由及网关内存，以及跨网关重连时如何找回原任务。
 - [断线重连与状态恢复](./02-connection/03-断线重连与状态恢复.md)，连接、订阅、业务状态与 Worker 恢复的区别，快照同步、游标回放及幂等重试。
 - [发布排空与部署选型](./02-connection/04-发布排空与部署选型.md)，实例退出、分批重连、薄网关独立部署、托管连接服务和 HTTP＋SSE。
+- [连接心跳与存活检测](./02-connection/05-连接心跳与存活检测.md)，协议与业务心跳、连接代次、超时清理、路由 TTL，以及 Session 与 Run 的独立生命周期。
 - [官方实践与设计边界](./02-connection/参考实践与设计边界.md)，RFC、AWS、微软、Socket.IO、Kubernetes 与 EventSource 的能力和验收场景。
 
 ## 03 执行层与 Agent 行为
 
-- [执行层 14 个环节总览](./03-execution/README.md#环节目录)，启动、循环、交付、等待恢复和全程观测，各环节均有独立目录。
+- [执行层生命周期与任务执行核心](./03-execution/README.md#环节目录)，接入与准备、Agent 循环、交付、等待恢复和全程观测。
 - [Codex、Pi 与 DeepSeek Harness 参考](./03-execution/参考实现与设计边界.md)，公开机制、接入限制、源码版本及平台补充能力。
-- [任务接入与运行创建](./03-execution/01-request-entry/README.md)，接收可信命令、复核授权、创建幂等、Run 快照与可靠入队；连接和会话交互在连接模块展开。
-- [调度与 Worker 领取](./03-execution/02-scheduling/README.md)，排队、配额、租约、Attempt 与执行所有权。
-- [Runtime 与环境准备](./03-execution/03-runtime-setup/README.md)，适配器、会话、沙箱、工作区与工具入口就绪。
-- [任务理解与动态计划](./03-execution/04-intent-planning/README.md)，意图判断、澄清、方法选择与计划修订。
-- [能力发现与资料检索](./03-execution/05-capability-retrieval/README.md)，Skill、工具、知识、记忆和产物的按需获取。
-- [上下文组装与预算检查](./03-execution/06-context-assembly/README.md)，来源、消息协议、Token 预算、裁剪与压缩。
-- [模型调用](./03-execution/07-model-invocation/README.md)，请求适配、流式响应、结构化提议与调用错误。
-- [动作前置门禁](./03-execution/08-pre-action-gate/README.md)，参数校验、实时授权、业务前置条件和审批。
-- [工具执行](./03-execution/09-tool-execution/README.md)，MCP、API、脚本、并发、操作 ID 与副作用。
-- [动作后置检查](./03-execution/10-post-action-check/README.md)，返回校验、不可信内容、错误分类与证据。
-- [循环控制与任务汇聚](./03-execution/11-loop-control/README.md)，继续、重规划、停止、预算与子任务汇聚。
-- [完成验收与交付](./03-execution/12-completion-delivery/README.md)，结果证据、产物持久化、终态、通知和资源回收。
-- [等待、中断与恢复](./03-execution/13-wait-recovery/README.md)，人工输入、取消、重试与恢复一致性。
-- [事件记录与全程观测](./03-execution/14-observability/README.md)，状态流、用量、审计与评测数据。
+- [任务接入与运行创建](./03-execution/01-request-entry/README.md)，接收可信命令、复核授权与幂等，准入成功后可靠保存 Run 快照和执行归属。
+- [执行准入与归属管理](./03-execution/02-scheduling/README.md)，健康实例间随机分发、实例满时拒绝、原子准入、租约、Attempt 与执行所有权。
+- [Runtime 基础初始化](./03-execution/03-runtime-setup/README.md)，基础 Prompt、参数、身份、运行会话和能力接口；具体 Skill、文件与沙箱按需准备。
+- [Agent 任务执行](./03-execution/04-agent-execution/README.md)，核心循环中的任务规划、模型决策、工具执行与反馈。
+- [完成验收与交付](./03-execution/05-completion-delivery/README.md)，结果证据、产物持久化、终态、通知和资源回收。
+- [等待、中断与恢复](./03-execution/06-wait-recovery/README.md)，人工输入、取消、重试与恢复一致性。
+- [事件记录与全程观测](./03-execution/07-observability/README.md)，状态流、用量、审计与评测数据。
 
-以下专题展开循环模式与通用运行契约：
+### 任务执行循环内部知识点
 
-- [Agent 本体与执行循环](./03-execution/11-loop-control/01-Agent本体与执行循环.md)，规划、决策、行动、反馈、状态与停止条件。
-- [规划执行与反思模式](./03-execution/04-intent-planning/01-规划执行与反思模式.md)，ReAct、Plan-and-Execute、Reflection、外部证据与有限重规划。
-- [多 Agent 协作与结果汇聚](./03-execution/11-loop-control/02-多Agent协作与结果汇聚.md)，角色、子 Run、上下文隔离、权限预算、共享修改与冲突处理。
+- [任务规划](./03-execution/04-agent-execution/01-task-planning/README.md)，在正常模型调用中理解任务并决定下一步，复杂任务按需维护 plan，不增加前置分类或 Planner 调用。
+- [能力发现与资料检索](./03-execution/04-agent-execution/02-capability-retrieval/README.md)，Skill、工具、知识、记忆和产物的按需获取。
+- [上下文组装与预算检查](./03-execution/04-agent-execution/03-context-assembly/README.md)，来源、消息协议、Token 预算、裁剪与压缩。
+- [模型调用](./03-execution/04-agent-execution/04-model-invocation/README.md)，请求适配、流式响应、结构化提议与调用错误。
+- [动作前置门禁](./03-execution/04-agent-execution/05-pre-action-gate/README.md)，参数校验、实时授权、业务前置条件和审批。
+- [工具执行](./03-execution/04-agent-execution/06-tool-execution/README.md)，MCP、API、脚本、并发、操作 ID 与副作用。
+- [动作后置检查](./03-execution/04-agent-execution/07-post-action-check/README.md)，返回校验、不可信内容、错误分类与证据。
+- [循环控制与任务汇聚](./03-execution/04-agent-execution/08-loop-control/README.md)，继续、重规划、停止、预算与子任务汇聚。
+
+### 循环模式与运行契约
+
+- [Agent 本体与执行循环](./03-execution/04-agent-execution/08-loop-control/01-Agent本体与执行循环.md)，规划、决策、行动、反馈、状态与停止条件。
+- [规划执行与反思模式](./03-execution/04-agent-execution/01-task-planning/01-规划执行与反思模式.md)，ReAct、Plan-and-Execute、Reflection、外部证据与有限重规划。
+- [多 Agent 协作与结果汇聚](./03-execution/04-agent-execution/08-loop-control/02-多Agent协作与结果汇聚.md)，角色、子 Run、上下文隔离、权限预算、共享修改与冲突处理。
 - [运行对象与可信上下文](./03-execution/README.md#运行对象与可信上下文)，逻辑调用、Worker 尝试、固定版本与业务 Task 关联。
 - [Agent 循环与 Runtime 适配](./03-execution/README.md#agent-循环与-runtime-适配)，Skill 加载、工具反馈、并发调用、人工等待及 LangGraph／SDK 能力差异。
-- [Run 状态与调度所有权](./03-execution/README.md#run-状态与调度所有权)，队列、租约、fencing、并发控制、重试与预算。
+- [Run 状态与调度所有权](./03-execution/README.md#run-状态与调度所有权)，准入后启动、租约、fencing、并发控制、恢复与预算。
+- [重试与上下文恢复的分工](./03-execution/03-runtime-setup/README.md#重试与上下文恢复的分工)，请求重发、局部调用重试、跨实例接续，以及持久状态恢复与每轮模型输入的区别。
+- [Worker 心跳租约与故障接管](./03-execution/02-scheduling/01-Worker心跳租约与故障接管.md)，条件续租、过期抢占、所有权代次、旧实例隔离，以及存活与进展的区别。
+- [恢复清单与跨 Worker 接续](./03-execution/06-wait-recovery/02-恢复清单与跨Worker接续.md)，配置、checkpoint、文件与操作记录的一致边界，原 Run 接续和未知副作用核对。
 - [副作用与运行恢复](./03-execution/README.md#外部副作用与恢复)，稳定操作 ID、外部对账、checkpoint 和工作区一致性，以及后续章节中的等待、取消与事件重连。
 
 ## 04 上下文管理与渐进式加载
@@ -143,7 +152,7 @@
 ## 12 可观测性、审计与排障
 
 - [Trace、Metric 与 Log 的关联](./12-observability/README.md#信号关联与留存)，Run、Attempt、执行步骤和模型／工具操作的关联标识。
-- [运行指标与成本记录](./12-observability/README.md#信号关联与留存)，排队、完成、恢复、取消、工具时延及实际或估算用量。
+- [运行指标与成本记录](./12-observability/README.md#信号关联与留存)，准入耗时、拒绝率、完成、恢复、取消、工具时延及实际或估算用量。
 - [上下文、记忆和环境诊断](./12-observability/README.md#信号关联与留存)，材料版本、裁剪、记忆撤销、沙箱资源与产物归档。
 - [观测数据的权限与可靠性](./12-observability/README.md#信号关联与留存)，脱敏、采样、租户隔离、必要审计、遥测故障和不可见信息。
 

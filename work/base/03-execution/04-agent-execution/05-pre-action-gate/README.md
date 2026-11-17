@@ -1,12 +1,12 @@
-# 08 动作前检查
+# 05 动作前检查
 
 本环节把模型提出的动作转换为经过参数、权限和业务条件校验的执行请求，必要时进入人工等待。
 
 ## 触发与输入输出
 
-[模型调用](../07-model-invocation/README.md)给出完整工具提议后进入本环节。输入包含工具与契约版本、参数、目标资源、Run 配置快照及可信身份。输出为允许执行、拒绝并附原因，或等待审批。
+[模型调用](../04-model-invocation/README.md)给出完整工具提议后进入本环节。输入包含工具与契约版本、参数、目标资源、Run 配置快照及可信身份。输出为允许执行、拒绝并附原因，或等待审批。
 
-通过的请求进入[工具执行](../09-tool-execution/README.md)，拒绝结果反馈给[循环控制](../11-loop-control/README.md)，人工等待交给[等待恢复](../13-wait-recovery/README.md)。这里不执行工具，也不依靠 Prompt 完成授权。
+通过的请求进入[工具执行](../06-tool-execution/README.md)，拒绝结果反馈给[循环控制](../08-loop-control/README.md)，人工等待交给[等待恢复](../../06-wait-recovery/README.md)。这里不执行工具，也不依靠 Prompt 完成授权。
 
 ## 基本步骤
 
@@ -30,6 +30,6 @@ Codex `PreToolUse` 能拦截受支持工具，但 hosted tools 和部分特殊�
 2. 工具在列表中可见，为什么仍可能被执行守卫拒绝？
 3. SDK 原生工具不经过网关时，限制应落在哪里？
 
-相关模块包括[执行安全](../../01-management/01-Agent权限与执行安全.md)、[MCP](../../07-mcp/README.md)和[沙箱](../../10-sandbox/README.md)。
+相关模块包括[执行安全](../../../01-management/01-Agent权限与执行安全.md)、[MCP](../../../07-mcp/README.md)和[沙箱](../../../10-sandbox/README.md)。
 
-[返回执行层](../README.md)
+[返回任务执行](../README.md) · [返回执行层](../../README.md)
