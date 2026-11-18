@@ -1,6 +1,6 @@
 # 典型问题与解决方案
 
-案例目录与 `base` 的 `00`—`13` 模块保持相同编号和名称。每个模块以 `README.md` 列出案例，具体问题保存在独立文件中，记录原因、修复方式、验证范围和代码证据。知识模块与案例模块可以双向跳转。
+案例目录与 `base` 的 `00`—`14` 模块保持相同编号和名称。每个模块以 `README.md` 列出案例，具体问题保存在独立文件中，记录原因、修复方式、验证范围和代码证据。知识模块与案例模块可以双向跳转。
 
 跨模块问题按主要故障环节归档，在其他相关模块提供链接。新增案例放入对应模块，暂未整理案例的模块保留入口。
 
@@ -11,21 +11,22 @@
 | [00-overview](./00-overview/README.md) | [总体架构与模块关系](../base/00-overview/README.md) | 暂无已整理案例 |
 | [01-management](./01-management/README.md) | [管理层](../base/01-management/README.md) | 暂无独立案例；模块入口包含相关案例链接 |
 | [02-connection](./02-connection/README.md) | [连接接入与会话协作](../base/02-connection/README.md) | [长任务可靠性](./02-connection/01-长任务可靠性.md)（通用设计问题） |
-| [03-execution](./03-execution/README.md) | [执行层与 Agent 行为](../base/03-execution/README.md) | [Skill 激活集合与工具授权](./03-execution/01-Skill激活集合与工具授权.md) |
-| [04-context](./04-context/README.md) | [上下文管理与渐进式加载](../base/04-context/README.md) | [Skill 正文被工具结果截断](./04-context/01-Skill正文被工具结果截断.md) |
-| [05-memory](./05-memory/README.md) | [记忆分类与生命周期](../base/05-memory/README.md) | 暂无已整理案例 |
-| [06-models](./06-models/README.md) | [模型调用与 Prompt](../base/06-models/README.md) | 暂无已整理案例 |
-| [07-mcp](./07-mcp/README.md) | [MCP 与企业工具](../base/07-mcp/README.md) | 暂无独立案例；模块入口包含相关案例链接 |
-| [08-skills](./08-skills/README.md) | [Skill 与方法版本管理](../base/08-skills/README.md) | [典型问题总纲](./08-skills/00-Skill典型问题总纲.md)；[召回与目录元数据](./08-skills/01-召回与元数据.md)；[资源缺失与按需读取](./08-skills/02-资源缺失与按需读取.md) |
-| [09-knowledge](./09-knowledge/README.md) | [知识接入与 RAG](../base/09-knowledge/README.md) | 暂无已整理案例 |
-| [10-sandbox](./10-sandbox/README.md) | [沙箱与工作区](../base/10-sandbox/README.md) | 暂无已整理案例 |
-| [11-artifacts](./11-artifacts/README.md) | [产物生成与持久化](../base/11-artifacts/README.md) | [Excel 生成内容丢失](./11-artifacts/01-Excel生成内容丢失.md) |
-| [12-observability](./12-observability/README.md) | [可观测性与排障](../base/12-observability/README.md) | 暂无已整理案例 |
-| [13-evaluation](./13-evaluation/README.md) | [自动化评测与质量验证](../base/13-evaluation/README.md) | 暂无独立案例；模块入口包含相关案例链接 |
+| [03-preparation](./03-preparation/README.md) | [执行准备](../base/03-preparation/README.md) | 暂无独立故障案例；关联幂等受理、执行准入与初始化恢复问题 |
+| [04-execution](./04-execution/README.md) | [执行层与 Agent 行为](../base/04-execution/README.md) | [Skill 激活集合与工具授权](./04-execution/01-Skill激活集合与工具授权.md) |
+| [05-context](./05-context/README.md) | [上下文管理与渐进式加载](../base/05-context/README.md) | [Skill 正文被工具结果截断](./05-context/01-Skill正文被工具结果截断.md) |
+| [06-memory](./06-memory/README.md) | [记忆分类与生命周期](../base/06-memory/README.md) | 暂无已整理案例 |
+| [07-models](./07-models/README.md) | [模型调用与 Prompt](../base/07-models/README.md) | 暂无已整理案例 |
+| [08-mcp](./08-mcp/README.md) | [MCP 与企业工具](../base/08-mcp/README.md) | 暂无独立案例；模块入口包含相关案例链接 |
+| [09-skills](./09-skills/README.md) | [Skill 与方法版本管理](../base/09-skills/README.md) | [典型问题总纲](./09-skills/00-Skill典型问题总纲.md)；[召回与目录元数据](./09-skills/01-召回与元数据.md)；[资源缺失与按需读取](./09-skills/02-资源缺失与按需读取.md) |
+| [10-knowledge](./10-knowledge/README.md) | [知识接入与 RAG](../base/10-knowledge/README.md) | 暂无已整理案例 |
+| [11-sandbox](./11-sandbox/README.md) | [沙箱与工作区](../base/11-sandbox/README.md) | 暂无已整理案例 |
+| [12-artifacts](./12-artifacts/README.md) | [产物生成与持久化](../base/12-artifacts/README.md) | [Excel 生成内容丢失](./12-artifacts/01-Excel生成内容丢失.md) |
+| [13-observability](./13-observability/README.md) | [可观测性与排障](../base/13-observability/README.md) | 暂无已整理案例 |
+| [14-evaluation](./14-evaluation/README.md) | [自动化评测与质量验证](../base/14-evaluation/README.md) | 暂无独立案例；模块入口包含相关案例链接 |
 
-现有案例主归属：召回与资源放在 `08-skills`，正文传输放在 `04-context`，激活集合与守卫放在 `03-execution`，生成内容完整性放在 `11-artifacts`。
+现有案例主归属：召回与资源放在 `09-skills`，正文传输放在 `05-context`，激活集合与守卫放在 `04-execution`，生成内容完整性放在 `12-artifacts`。
 
-[Skill 典型问题总纲](./08-skills/00-Skill典型问题总纲.md) 另外收录结合官方资料归纳的通用问题，不属于下方六个已有故障案例的复验结论。
+[Skill 典型问题总纲](./09-skills/00-Skill典型问题总纲.md) 另外收录结合官方资料归纳的通用问题，不属于下方六个已有故障案例的复验结论。
 
 [长任务可靠性](./02-connection/01-长任务可靠性.md) 从连接接入串起执行准入、执行恢复、外部副作用与交付，用于后续讨论和验证设计，同样不计入已有故障案例的复验结果。
 

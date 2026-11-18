@@ -55,7 +55,7 @@ flowchart LR
 
 图中存储是逻辑展示：Run 状态由执行层维护，展示消息由会话投影维护，可以共用数据库，但不能相互覆盖。outbox 用于状态通知等可靠投递，不再承担新任务调度入队；临时文本增量可以批量推送，不承诺每个 Token 都独立持久化。
 
-目标实例取得槽位后，在同一可靠提交边界保存 `STARTING` 的 Run、配置快照、Session 资格、额度预占、Attempt 的 owner/epoch/lease 与原始回执，才能确认受理。任务接入与[执行准入与归属管理](../03-execution/02-scheduling/README.md)是同一次受理的逻辑职责。实例满额时不创建已受理 Run。
+目标实例取得槽位后，在同一可靠提交边界保存 `STARTING` 的 Run、配置快照、Session 资格、额度预占、Attempt 的 owner/epoch/lease 与原始回执，才能确认受理。任务接入与[执行准入与归属管理](../03-preparation/02-scheduling/README.md)是同一次受理的逻辑职责。实例满额时不创建已受理 Run。
 
 持久化后、Runtime 启动前发生崩溃，仍须恢复原 Run 或明确失败。已受理任务恢复时无资源，显式进入 `RECOVERY_PENDING` 并有限重试至截止时间，不回报未受理，也不加入新任务等待队列。后续进度通过订阅返回，模型和工具由 Runtime 直接访问对应服务。
 
@@ -85,4 +85,4 @@ AWS API Gateway 的连接模型同样把客户端长连接与后端消息处理�
 
 [长任务可靠性典型问题](../../case/02-connection/01-长任务可靠性.md)从可靠受理开始，串起连接、实例准入、执行恢复、工具副作用与最终交付，可用于跨模块回顾。
 
-[对应案例入口](../../case/02-connection/README.md) · [执行层](../03-execution/README.md) · [返回知识清单](../README.md)
+[对应案例入口](../../case/02-connection/README.md) · [执行层](../04-execution/README.md) · [返回知识清单](../README.md)
